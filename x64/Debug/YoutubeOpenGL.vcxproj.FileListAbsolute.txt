@@ -1,0 +1,3 @@
+D:\WORK\Repositories\opengl-tutorials\YoutubeOpenGL 2 - Triangle\x64\Debug\YoutubeOpenGL.exe
+C:\Users\Sagar Kalbande\Documents\Sagar\Samsung Test\YoutubeOpenGL 2 - Triangle\x64\Debug\MyOpenGLtest.exe
+C:\Users\Sagar Kalbande\Documents\Sagar\Samsung Test\OpenGL Triangle\x64\Debug\MyOpenGLtest.exe
