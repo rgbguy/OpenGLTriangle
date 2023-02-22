@@ -1,9 +1,10 @@
 #include<iostream>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
+#include<errorHandler.h>
 
 const char* vertexShaderSource = R"(
-#version 330 core
+#version 460 core
 layout (location = 0) in vec3 aPos;
 void main()
 {
@@ -12,7 +13,7 @@ void main()
 )";
 
 const char* fragmentShaderSource = R"(
-#version 330 core
+#version 460 core
 out vec4 FragColor;
 void main()
 {
@@ -20,30 +21,34 @@ void main()
 }
 )";
 
+
 int main()
 {
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	GLFWwindow* window = glfwCreateWindow(800, 800, "MyWindow", NULL, NULL);
-
-	if (window == NULL)
+	if (!window)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
+
 	gladLoadGL();
+	std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
 
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
+	CheckShaderStatus(vertexShader);
 
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
+	GLCall(glCompileShader(fragmentShader));
+	CheckShaderStatus(fragmentShader);
 
 	GLuint shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vertexShader);
@@ -74,9 +79,6 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-
-
-	// Main while loop
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
